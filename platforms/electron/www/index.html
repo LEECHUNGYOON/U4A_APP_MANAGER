@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Hello World</title>
+
+    <style>
+        .area {
+            margin: 1rem;
+        }
+
+        .buttonArea>input[type="button"] {
+            width: 100px;
+            height: 100px;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="area inputArea">        
+        <label for="name">server Url: </label>
+        <input type="text" name="name" id="serverUrl" required>
+    </div>
+    <div class="area buttonArea">
+        <input type="button" value="서버 연결상태 확인" onclick="oAPP.onCheckServerConnect();"></input>
+        <input type="button" value="WWW Manager" onclick="oAPP.onWWWManager();"></input>        
+    </div>
+
+    <!-- Busy Indicator Start -->
+    <div id="u4aWsBusyIndicator" data-sap-ui-popup="id-1622786200065-234" class="u4aWsBusyIndicator sapUiUserSelectable"
+        style="position: absolute; visibility: hidden; display: block; top: 0px; height: 100%; width: 100%; left: 0px;">
+        <div class="sapUiBusy" tabindex="0" role="progressbar" alt="" title="Please wait"></div>
+        <div class="sapUiLocalBusyIndicator sapUiLocalBusyIndicatorSizeBig sapUiLocalBusyIndicatorFade"
+            role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuetext="Busy" alt="" tabindex="0"
+            title="Please wait">
+            <div class="sapUiLocalBusyIndicatorAnimation sapUiLocalBusyIndicatorAnimStandard">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <!-- Busy Indicator End -->
+    
+    <script src="cordova.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
