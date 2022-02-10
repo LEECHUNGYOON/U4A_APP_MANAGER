@@ -1,0 +1,16 @@
+{
+  "main": "cdv-electron-main.js",
+  "name": "com.U4A_APP_MANAGE.app",
+  "displayName": "U4A_APP_MANAGE",
+  "version": "1.0.0",
+  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "dependencies": {
+    "fs-extra": "^10.0.0"
+  },
+  "homepage": "http://cordova.io",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Apache Cordova Team",
+    "email": "dev@cordova.apache.org"
+  }
+}
