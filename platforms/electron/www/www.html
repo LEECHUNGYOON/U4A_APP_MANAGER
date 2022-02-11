@@ -223,8 +223,15 @@
         margin-top: 1rem;
         margin-left: 0rem;
     }
-    .cl_addUpBtnArea > input[type="button"] {
+
+    .cl_addUpBtnArea>input[type="button"] {
         width: 100%;
+    }
+
+    .cl_textArea {
+        width: 100%;
+        height: 100%;
+        resize: none;
     }
 </style>
 
@@ -235,20 +242,29 @@
 
         <select id="versionSelect"></select>
 
-        <input type="button" id="getfileBtn" value="원본파일 다운" onclick="oAPP.getFile();" />
+        <input type="button" id="getfileBtn" value="원본파일 다운" onclick="oAPP.getWWWOriginFile();" />
 
     </div>
 
     <div class="cl_vbox">
         <div class="cl_hbox cl_title">추가/생성 영역</div>
 
-        <input type="file" id="fileAtt" name="fileAtt" class="cl_attachFile" onchange="oAPP.checkAttachFile(this);" accept="application/zip" />
+        <input type="file" id="fileAtt" name="fileAtt" class="cl_attachFile" onchange="oAPP.checkAttachFile(this);"
+            accept="application/zip" />
 
         <div class="cl_hbox cl_hbox_center cl_addUpBtnArea">
             <input type="button" id="newBtn" value="신규버전추가" onclick="oAPP.addNewVersion();" />
             <input type="button" id="updateBtn" value="기존버전 업데이트" onclick="oAPP.setUpdate();" />
-
         </div>
+
+        <div class="cl_vbox">
+            <div class="cl_hbox" style="align-items: center;margin-bottom:0.5rem;">
+                <div class="cl_hbox cl_title">Plugin List</div>
+                <input type="button" id="Plugin" value="Plugin Update" onclick="oAPP.setPluginListUpdate();" />
+            </div>
+            <textarea id="pluginTxtArea" class="cl_textArea" rows="20"></textarea>
+        </div>
+
     </div>
     <!-- Busy Indicator Start -->
     <div id="u4aWsBusyIndicator" data-sap-ui-popup="id-1622786200065-234" class="u4aWsBusyIndicator sapUiUserSelectable"

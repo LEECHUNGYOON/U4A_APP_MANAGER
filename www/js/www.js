@@ -15,16 +15,78 @@ let oAPP = (function () {
                 // 서버 URL 정보
                 oAPP.serverUrl = oParam.SERV_URL;
 
-                // WWW 의 버전 리스트
-                var aVerList = oParam.VER;
+                var oMeta = oParam.META;
 
+                // WWW 의 버전 리스트
+                var aVerList = oMeta.VERLIST,
+                    aPluginList = oMeta.PLUGINS;
+
+                // version list
                 oAPP.setVersionList(aVerList);
+
+                // plugin list
+                oAPP.setPluginList(aPluginList);
 
             });
 
+        },
+
+        // 플러그인 목록 업데이트 하기..
+        setPluginListUpdate: function () {
+
+            debugger;
+
+            var oTxtArea = document.getElementById("pluginTxtArea");
+            if (typeof oTxtArea === "undefined") {
+                return;
+            }
+
+            var sPluginValue = oTxtArea.value,
+                aPluginList = sPluginValue.split("\n"),
+                sPluginJson = JSON.stringify(aPluginList);
+                sPluginJson = encodeURIComponent(sPluginJson);
+
+            var sServerUrl = oAPP.serverUrl + "/setUpdatePluginList";
+
+            var oForm = new FormData();
+            oForm.append("PLUGIN", sPluginJson);
+
+            oAPP.setBusy('X');
+
+            oAPP.sendAjax(sServerUrl, "POST", oForm, true, "", function (oData) {
+
+                oAPP.setBusy('');
+
+                debugger;
+
+
+
+
+
+            });
 
         },
 
+        // plugin list
+        setPluginList: function (aPluginList) {
+
+            var oTxtArea = document.getElementById("pluginTxtArea");
+            if (typeof oTxtArea === "undefined") {
+                return;
+            }
+
+            var iPluginLength = aPluginList.length;
+
+            var sPlugin = "";
+            for (var i = 0; i < iPluginLength; i++) {
+                sPlugin += aPluginList[i] + "\n";
+            }
+
+            oTxtArea.value = sPlugin;
+
+        },
+
+        // version list        
         setVersionList: function (aVerList) {
 
             var oSelect = document.getElementById("versionSelect");
@@ -46,7 +108,7 @@ let oAPP = (function () {
 
         },
 
-        getFile: function () {
+        getWWWOriginFile: function () {
 
             var oSelect = document.getElementById("versionSelect");
             if (typeof oSelect == "undefined") {
@@ -55,7 +117,7 @@ let oAPP = (function () {
 
             var sVerInfo = oSelect.options[oSelect.selectedIndex].value;
 
-            var sServerUrl = oAPP.serverUrl + "/getWWWFile";
+            var sServerUrl = oAPP.serverUrl + "/getWWWOriginFile";
 
             var oForm = new FormData();
             oForm.append("VER", sVerInfo);
@@ -64,14 +126,15 @@ let oAPP = (function () {
 
                 oAPP.setBusy('');
 
-                oAPP.onFileDown(oResponse, sVerInfo);
+                // www 원본 파일 저장
+                oAPP.getWWWOrigFileDown(oResponse, sVerInfo);
 
             });
 
         },
 
-        // 파일 저장
-        onFileDown: function (oFile, sVer) {
+        // www 원본 파일 저장
+        getWWWOrigFileDown: function (oFile, sVer) {
 
             let FS = require('fs-extra'),
                 SHELL = REMOTE.shell;

@@ -3,7 +3,7 @@ let oAPP = (function () {
 
     const
         SERVER_URL = "http://192.168.0.6:9992",
-        REMOTE = require('electron').remote,        
+        REMOTE = require('electron').remote,
         APP = REMOTE.app,
         PATH = REMOTE.require('path'),
         APPPATH = APP.getAppPath();
@@ -58,23 +58,25 @@ let oAPP = (function () {
             var oServerUrlInput = document.getElementById("serverUrl"),
                 sUrl = oServerUrlInput.value;
 
-            var sServiceUrl = sUrl + "/getVersions";
+            var sServiceUrl = sUrl + "/getAppMetadata";
 
             // 버전 리스트 정보를 구한다.
-            oAPP.getVersions(sServiceUrl, function (oResult) {
+            oAPP.getAppMetadata(sServiceUrl, function (oResult) {
+
+                debugger;
 
                 if (typeof oResult == "boolean" && oResult == false) {
                     return;
                 }
 
                 // 버전 리스트를 보여줄 팝업을 띄운다.
-                oAPP.onVersionListPopupOpen(oResult);
+                oAPP.onAppManagerPopupOpen(oResult);
 
             });
 
         },
 
-        getVersions: function (sServiceUrl, fnCallback) {
+        getAppMetadata: function (sServiceUrl, fnCallback) {
 
             oAPP.sendAjax(sServiceUrl, "GET", true, "", function (oData) {
 
@@ -100,26 +102,25 @@ let oAPP = (function () {
 
         },
 
-        onVersionListPopupOpen: function (oResult) {
+        onAppManagerPopupOpen: function (oResult) {
 
             var oServerUrlInput = document.getElementById("serverUrl"),
                 sServerUrl = oServerUrlInput.value;
 
-            var aVer = oResult.DATA;
-
-            var oCurrWin = REMOTE.getCurrentWindow();
-            var oBrowserOptions = {
-                "width": 300,
-                "height": 500,
-                "resizable": true,
-                "movable": true,
-                "closable": true,
-                "modal": true,
-                "parent": oCurrWin,
-                "webPreferences": {
-                    "nodeIntegration": true,
-                }
-            };
+            var oAppMetaData = oResult.DATA,
+                oCurrWin = REMOTE.getCurrentWindow(),
+                oBrowserOptions = {
+                    "width": 800,
+                    "height": 800,
+                    "resizable": true,
+                    "movable": true,
+                    "closable": true,
+                    "modal": true,
+                    "parent": oCurrWin,
+                    "webPreferences": {
+                        "nodeIntegration": true,
+                    }
+                };
 
             // Server List 화면 오픈
             var oWin = new REMOTE.BrowserWindow(oBrowserOptions);
@@ -131,16 +132,10 @@ let oAPP = (function () {
 
                 var oParam = {
                     SERV_URL: sServerUrl,
-                    VER: aVer
+                    META: oAppMetaData
                 };
 
                 oWin.webContents.send('if-ver-info', oParam);
-
-            });
-
-            oWin.webContents.on('if-www-reload', function(){
-
-                alert("reload!!");
 
             });
 

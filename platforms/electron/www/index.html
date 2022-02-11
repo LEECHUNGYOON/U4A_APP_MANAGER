@@ -23,13 +23,14 @@
 
 <body>
 
-    <div class="area inputArea">        
+    <div class="area inputArea">
         <label for="name">server Url: </label>
         <input type="text" name="name" id="serverUrl" required>
+        <label><input type="checkbox" name="remember" id="remembercb" value="Remember"> Remember</label>
     </div>
     <div class="area buttonArea">
         <input type="button" value="서버 연결상태 확인" onclick="oAPP.onCheckServerConnect();"></input>
-        <input type="button" value="WWW Manager" onclick="oAPP.onWWWManager();"></input>        
+        <input type="button" value="WWW Manager" onclick="oAPP.onWWWManager();"></input>
     </div>
 
     <!-- Busy Indicator Start -->
@@ -47,7 +48,7 @@
         </div>
     </div>
     <!-- Busy Indicator End -->
-    
+
     <script src="cordova.js"></script>
     <script src="js/index.js"></script>
 </body>
