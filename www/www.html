@@ -260,8 +260,12 @@
         <div class="cl_vbox">
             <div class="cl_hbox" style="align-items: center;margin-bottom:0.5rem;">
                 <div class="cl_hbox cl_title">Plugin List</div>
+                <!-- 플러그인 업데이트 버튼 -->
                 <input type="button" id="Plugin" value="Plugin Update" onclick="oAPP.setPluginListUpdate();" />
+                <!-- 초기화 -->
+                <input type="button" id="Plugin" value="Refresh" onclick="oAPP.setPluginListRefresh();" />
             </div>
+            <!-- 플러그인 리스트 -->
             <textarea id="pluginTxtArea" class="cl_textArea" rows="20"></textarea>
         </div>
 

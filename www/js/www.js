@@ -31,6 +31,20 @@ let oAPP = (function () {
 
         },
 
+        // 플러그인 리스트 초기화
+        setPluginListRefresh: function(){
+
+            var sServiceUrl = sUrl + "/getAppMetadata";
+
+            // 버전 리스트 정보를 구한다.
+            oAPP.getAppMetadata(sServiceUrl, function (oResult) {
+
+
+
+            });
+
+        },
+
         // 플러그인 목록 업데이트 하기..
         setPluginListUpdate: function () {
 
@@ -450,7 +464,33 @@ let oAPP = (function () {
 
             debugger;
 
-        }
+        },
+
+        getAppMetadata: function (sServiceUrl, fnCallback) {
+
+            oAPP.sendAjax(sServiceUrl, "GET", true, "", function (oData) {
+
+                oAPP.setBusy('');
+
+                if (oData == "") {
+                    alert("nerwork error!!");
+                    fnCallback(false);
+                    return;
+                }
+
+                var oResult = JSON.parse(oData);
+
+                if (oResult.RETCD == "E") {
+                    alert(oResult.MSG);
+                    fnCallback(false);
+                    return;
+                }
+
+                fnCallback(oResult);
+
+            });
+
+        },
 
 
     };
