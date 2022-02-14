@@ -1,4 +1,4 @@
-let oAPP = (function () {
+let oAPP = (function() {
     "use strict";
 
     const
@@ -8,9 +8,9 @@ let oAPP = (function () {
 
     return {
 
-        onStart: function () {
+        onStart: function() {
 
-            IPCRENDERER.on("if-ver-info", function (events, oParam) {
+            IPCRENDERER.on("if-ver-info", function(events, oParam) {
 
                 // 서버 URL 정보
                 oAPP.serverUrl = oParam.SERV_URL;
@@ -31,10 +31,41 @@ let oAPP = (function () {
 
         },
 
-        // 플러그인 목록 업데이트 하기..
-        setPluginListUpdate: function () {
+        // 플러그인 리스트 초기화
+        setPluginListRefresh: function() {
 
-            debugger;
+            var sServiceUrl = oAPP.serverUrl + "/getAppMetadata";
+
+            // 버전 리스트 정보를 구한다.
+            oAPP.getAppMetadata(sServiceUrl, function(oResult) {
+
+                var oResultData = oResult.DATA,
+                    aPluginList = oResultData.PLUGINS;
+
+                // TextArea에 plugin list를 보여준다.
+                oAPP.setPluginList(aPluginList);
+
+            });
+
+        },
+
+        // 플러그인 목록 업데이트 하기..
+        setPluginListUpdate: function() {
+
+            // 질문 팝업
+            var oCurrView = REMOTE.getCurrentWindow(),
+                sMsg = "Plugin 목록을 업데이트 합니다. \n 입력하신 정보가 맞습니까?";
+
+            var iBtnIndex = DIALOG.showMessageBox(oCurrView, {
+                title: "Plugin Update",
+                message: sMsg,
+                type: "warning",
+                buttons: ["예", "아니오"]
+            });
+
+            if (iBtnIndex != 0) {
+                return;
+            }
 
             var oTxtArea = document.getElementById("pluginTxtArea");
             if (typeof oTxtArea === "undefined") {
@@ -44,7 +75,7 @@ let oAPP = (function () {
             var sPluginValue = oTxtArea.value,
                 aPluginList = sPluginValue.split("\n"),
                 sPluginJson = JSON.stringify(aPluginList);
-                sPluginJson = encodeURIComponent(sPluginJson);
+            sPluginJson = encodeURIComponent(sPluginJson);
 
             var sServerUrl = oAPP.serverUrl + "/setUpdatePluginList";
 
@@ -53,7 +84,7 @@ let oAPP = (function () {
 
             oAPP.setBusy('X');
 
-            oAPP.sendAjax(sServerUrl, "POST", oForm, true, "", function (oData) {
+            oAPP.sendAjax(sServerUrl, "POST", oForm, true, "", function(oData) {
 
                 oAPP.setBusy('');
 
@@ -67,8 +98,8 @@ let oAPP = (function () {
 
         },
 
-        // plugin list
-        setPluginList: function (aPluginList) {
+        // TextArea에 plugin list를 보여준다.
+        setPluginList: function(aPluginList) {
 
             var oTxtArea = document.getElementById("pluginTxtArea");
             if (typeof oTxtArea === "undefined") {
@@ -87,7 +118,7 @@ let oAPP = (function () {
         },
 
         // version list        
-        setVersionList: function (aVerList) {
+        setVersionList: function(aVerList) {
 
             var oSelect = document.getElementById("versionSelect");
             if (typeof oSelect == "undefined") {
@@ -108,7 +139,7 @@ let oAPP = (function () {
 
         },
 
-        getWWWOriginFile: function () {
+        getWWWOriginFile: function() {
 
             var oSelect = document.getElementById("versionSelect");
             if (typeof oSelect == "undefined") {
@@ -122,7 +153,7 @@ let oAPP = (function () {
             var oForm = new FormData();
             oForm.append("VER", sVerInfo);
 
-            oAPP.sendAjax(sServerUrl, "POST", oForm, true, "blob", function (oResponse) {
+            oAPP.sendAjax(sServerUrl, "POST", oForm, true, "blob", function(oResponse) {
 
                 oAPP.setBusy('');
 
@@ -134,7 +165,7 @@ let oAPP = (function () {
         },
 
         // www 원본 파일 저장
-        getWWWOrigFileDown: function (oFile, sVer) {
+        getWWWOrigFileDown: function(oFile, sVer) {
 
             let FS = require('fs-extra'),
                 SHELL = REMOTE.shell;
@@ -177,7 +208,7 @@ let oAPP = (function () {
                 filePath = folderPath + "\\" + fileName; //폴더 경로 + 파일명
 
             var fileReader = new FileReader();
-            fileReader.onload = function (event) {
+            fileReader.onload = function(event) {
 
                 var arrayBuffer = event.target.result,
                     buffer = Buffer.from(arrayBuffer);
@@ -203,13 +234,13 @@ let oAPP = (function () {
             fileReader.readAsArrayBuffer(oFile);
         },
 
-        sendAjax: function (sUrl, sMethod, oFormData, bIsAsync, sResType, fnCallback) {
+        sendAjax: function(sUrl, sMethod, oFormData, bIsAsync, sResType, fnCallback) {
 
             oAPP.setBusy('X');
 
             var xhr = new XMLHttpRequest();
 
-            xhr.onreadystatechange = function () {
+            xhr.onreadystatechange = function() {
 
                 if (xhr.readyState == 4 && xhr.status == 200) {
 
@@ -220,7 +251,7 @@ let oAPP = (function () {
                     if (oResponse instanceof Blob && oResponse.type.startsWith("text")) {
 
                         var reader = new FileReader();
-                        reader.onload = function () {
+                        reader.onload = function() {
 
                             var sRetJson = reader.result,
                                 oRet = JSON.parse(sRetJson);
@@ -242,7 +273,7 @@ let oAPP = (function () {
 
             };
 
-            xhr.onerror = function (e) {
+            xhr.onerror = function(e) {
 
                 oAPP.setBusy('');
 
@@ -265,7 +296,7 @@ let oAPP = (function () {
 
         },
 
-        setBusy: function (bIsBusy) {
+        setBusy: function(bIsBusy) {
 
             var oBusy = document.getElementById("u4aWsBusyIndicator");
 
@@ -281,7 +312,7 @@ let oAPP = (function () {
 
         },
 
-        checkAttachFile: function (oFileObj) {
+        checkAttachFile: function(oFileObj) {
 
             var aFiles = oFileObj.files,
                 iFileLength = aFiles.length;
@@ -304,7 +335,7 @@ let oAPP = (function () {
 
         }, // end of checkAttachFile
 
-        addNewVersion: function () {
+        addNewVersion: function() {
 
             var oFileAtt = document.getElementById("fileAtt");
 
@@ -340,7 +371,7 @@ let oAPP = (function () {
 
             oAPP.setBusy('X');
 
-            oAPP.sendAjax(sServerUrl, "POST", oForm, true, "", function (oData) {
+            oAPP.sendAjax(sServerUrl, "POST", oForm, true, "", function(oData) {
 
                 oAPP.setBusy('');
 
@@ -368,7 +399,7 @@ let oAPP = (function () {
 
         }, // end of addNewVersion
 
-        setUpdate: function () {
+        setUpdate: function() {
 
             // 첨부파일 유무 확인
             var oFileAtt = document.getElementById("fileAtt"),
@@ -414,7 +445,7 @@ let oAPP = (function () {
 
             oAPP.setBusy('X');
 
-            oAPP.sendAjax(sServerUrl, "POST", oForm, true, "", function (oData) {
+            oAPP.sendAjax(sServerUrl, "POST", oForm, true, "", function(oData) {
 
                 oAPP.setBusy('');
 
@@ -433,7 +464,7 @@ let oAPP = (function () {
         },
 
         /* 하위 자식들 다 삭제*/
-        clearChildNodes: function (oUI) {
+        clearChildNodes: function(oUI) {
 
             if (typeof oUI == "undefined") {
                 return;
@@ -446,18 +477,44 @@ let oAPP = (function () {
 
         },
 
-        onFileAttach: function (oFile) {
+        onFileAttach: function(oFile) {
 
             debugger;
 
-        }
+        },
+
+        getAppMetadata: function(sServiceUrl, fnCallback) {
+
+            oAPP.sendAjax(sServiceUrl, "GET", undefined, true, "", function(oData) {
+
+                oAPP.setBusy('');
+
+                if (oData == "") {
+                    alert("nerwork error!!");
+                    fnCallback(false);
+                    return;
+                }
+
+                var oResult = JSON.parse(oData);
+
+                if (oResult.RETCD == "E") {
+                    alert(oResult.MSG);
+                    fnCallback(false);
+                    return;
+                }
+
+                fnCallback(oResult);
+
+            });
+
+        },
 
 
     };
 
 })();
 
-window.onload = function () {
+window.onload = function() {
 
     oAPP.onStart();
 

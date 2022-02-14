@@ -2,9 +2,12 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type"
+          content="text/html;charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible"
+          content="IE=Edge" />
     <meta charset="utf-8">
 </head>
 <style>
@@ -233,6 +236,16 @@
         height: 100%;
         resize: none;
     }
+
+    .cl_spacer {
+        -webkit-flex-grow: 1;
+        -webkit-box-flex: 1;
+        flex: auto;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        height: 1px;
+    }
 </style>
 
 <body style="padding: 1rem;">
@@ -242,37 +255,75 @@
 
         <select id="versionSelect"></select>
 
-        <input type="button" id="getfileBtn" value="원본파일 다운" onclick="oAPP.getWWWOriginFile();" />
+        <input type="button"
+               id="getfileBtn"
+               value="원본파일 다운"
+               onclick="oAPP.getWWWOriginFile();" />
 
     </div>
 
     <div class="cl_vbox">
         <div class="cl_hbox cl_title">추가/생성 영역</div>
 
-        <input type="file" id="fileAtt" name="fileAtt" class="cl_attachFile" onchange="oAPP.checkAttachFile(this);"
-            accept="application/zip" />
+        <input type="file"
+               id="fileAtt"
+               name="fileAtt"
+               class="cl_attachFile"
+               onchange="oAPP.checkAttachFile(this);"
+               accept="application/zip" />
 
         <div class="cl_hbox cl_hbox_center cl_addUpBtnArea">
-            <input type="button" id="newBtn" value="신규버전추가" onclick="oAPP.addNewVersion();" />
-            <input type="button" id="updateBtn" value="기존버전 업데이트" onclick="oAPP.setUpdate();" />
+            <input type="button"
+                   id="newBtn"
+                   value="신규버전추가"
+                   onclick="oAPP.addNewVersion();" />
+            <input type="button"
+                   id="updateBtn"
+                   value="기존버전 업데이트"
+                   onclick="oAPP.setUpdate();" />
         </div>
 
         <div class="cl_vbox">
-            <div class="cl_hbox" style="align-items: center;margin-bottom:0.5rem;">
+            <div class="cl_hbox"
+                 style="align-items: center;margin-bottom:0.5rem;">
                 <div class="cl_hbox cl_title">Plugin List</div>
-                <input type="button" id="Plugin" value="Plugin Update" onclick="oAPP.setPluginListUpdate();" />
+                <!-- 플러그인 업데이트 버튼 -->
+                <input type="button"
+                       id="Plugin"
+                       value="Plugin Update"
+                       onclick="oAPP.setPluginListUpdate();" />
+                <div class="cl_spacer"></div>
+                <!-- 초기화 -->
+                <input type="button"
+                       id="Plugin"
+                       value="Refresh"
+                       onclick="oAPP.setPluginListRefresh();" />
             </div>
-            <textarea id="pluginTxtArea" class="cl_textArea" rows="20"></textarea>
+            <!-- 플러그인 리스트 -->
+            <textarea id="pluginTxtArea"
+                      class="cl_textArea"
+                      rows="20"></textarea>
         </div>
 
     </div>
     <!-- Busy Indicator Start -->
-    <div id="u4aWsBusyIndicator" data-sap-ui-popup="id-1622786200065-234" class="u4aWsBusyIndicator sapUiUserSelectable"
-        style="position: absolute; visibility: hidden; display: block; top: 0px; height: 100%; width: 100%; left: 0px;">
-        <div class="sapUiBusy" tabindex="0" role="progressbar" alt="" title="Please wait"></div>
+    <div id="u4aWsBusyIndicator"
+         data-sap-ui-popup="id-1622786200065-234"
+         class="u4aWsBusyIndicator sapUiUserSelectable"
+         style="position: absolute; visibility: hidden; display: block; top: 0px; height: 100%; width: 100%; left: 0px;">
+        <div class="sapUiBusy"
+             tabindex="0"
+             role="progressbar"
+             alt=""
+             title="Please wait"></div>
         <div class="sapUiLocalBusyIndicator sapUiLocalBusyIndicatorSizeBig sapUiLocalBusyIndicatorFade"
-            role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuetext="Busy" alt="" tabindex="0"
-            title="Please wait">
+             role="progressbar"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             aria-valuetext="Busy"
+             alt=""
+             tabindex="0"
+             title="Please wait">
             <div class="sapUiLocalBusyIndicatorAnimation sapUiLocalBusyIndicatorAnimStandard">
                 <div></div>
                 <div></div>
