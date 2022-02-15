@@ -17,6 +17,11 @@
             height: 100px;
             white-space: normal;
             word-wrap: break-word;
+            margin: 0.5rem;
+        }
+
+        .buttonArea {
+            display: flex;
         }
     </style>
 </head>
@@ -31,6 +36,7 @@
     <div class="area buttonArea">
         <input type="button" value="서버 연결상태 확인" onclick="oAPP.onCheckServerConnect();"></input>
         <input type="button" value="WWW Manager" onclick="oAPP.onWWWManager();"></input>
+        <input type="button" value="App Builder" onclick="oAPP.onAppBuilder();"></input>
     </div>
 
     <!-- Busy Indicator Start -->

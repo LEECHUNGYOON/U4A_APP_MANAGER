@@ -191,6 +191,36 @@ let oAPP = (function () {
 
         },
 
+        onAppBuilder: function () {
+
+
+            debugger;
+
+
+            var oServerUrlInput = document.getElementById("serverUrl"),
+                sUrl = oServerUrlInput.value,
+                oCurrWin = REMOTE.getCurrentWindow(),
+                oBrowserOptions = {
+                    "width": 800,
+                    "height": 800,
+                    "resizable": true,
+                    "movable": true,
+                    "closable": true,
+                    "modal": true,
+                    "parent": oCurrWin,
+                    "webPreferences": {
+                        "nodeIntegration": true,
+                    }
+                };
+            // Server List 화면 오픈
+            var oWin = new REMOTE.BrowserWindow(oBrowserOptions);
+            oWin.webContents.openDevTools();
+
+            var sBuildUrl = sUrl + "\\index";
+            oWin.loadURL(sBuildUrl);
+
+        },
+
         sendAjax: function (sUrl, sMethod, bIsAsync, sResType, fnCallback) {
 
             oAPP.setBusy('X');

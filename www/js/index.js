@@ -18,6 +18,44 @@ let oAPP = (function () {
 
         },
 
+        checkServerConnect: function (fnCallback) {
+
+            var oServerUrlInput = document.getElementById("serverUrl");
+            var sUrl = oServerUrlInput.value;
+
+            sUrl += "/ping";
+
+            if (sUrl == "" || typeof sUrl == "undefined") {
+                alert("Server URL을 입력하세요!");
+                return;
+            }
+
+            oAPP.sendAjax(sUrl, "GET", true, "", function (oData) {
+
+                var oRetCod = {
+                    RETCD: "E",
+                    MSG: "",
+                };
+
+                if (oData == "") {
+                    alert("nerwork error!!");
+                    oAPP.setBusy('');
+                    return;
+                }
+
+                var oResult = JSON.parse(oData);
+
+                if (oResult.RETCD != "S") {
+                    oAPP.setBusy('');
+                    return;
+                }
+
+                alert(oResult.MSG);
+                oAPP.setBusy('');
+
+            });
+
+        },
         // 서버 커넥션 체크
         onCheckServerConnect: function () {
 
@@ -62,8 +100,6 @@ let oAPP = (function () {
 
             // 버전 리스트 정보를 구한다.
             oAPP.getAppMetadata(sServiceUrl, function (oResult) {
-
-                debugger;
 
                 if (typeof oResult == "boolean" && oResult == false) {
                     return;
@@ -188,6 +224,32 @@ let oAPP = (function () {
                 // oWin.close();
             });
 
+
+        },
+
+        onAppBuilder: function () {
+
+            var oServerUrlInput = document.getElementById("serverUrl"),
+                sUrl = oServerUrlInput.value,
+                oCurrWin = REMOTE.getCurrentWindow(),
+                oBrowserOptions = {
+                    "width": 800,
+                    "height": 800,
+                    "resizable": true,
+                    "movable": true,
+                    "closable": true,
+                    "modal": true,
+                    "parent": oCurrWin,
+                    "webPreferences": {
+                        "nodeIntegration": true,
+                    }
+                };
+            // Server List 화면 오픈
+            var oWin = new REMOTE.BrowserWindow(oBrowserOptions);
+            // oWin.webContents.openDevTools();
+
+            var sBuildUrl = sUrl + "\\index";
+            oWin.loadURL(sBuildUrl);
 
         },
 
